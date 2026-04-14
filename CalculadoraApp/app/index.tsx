@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
-
-interface BotaoProps {
-  titulo: string;
-  corFundo?: string;
-  corTexto?: string;
-}
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import Botao from './components/Botao'; 
 
 export default function Index() {
   const [expressao, setExpressao] = useState<string>('');
@@ -23,14 +18,15 @@ export default function Index() {
 
   const obterCorFundo = (botao: string): string => {
     if (botao === 'C') return '#ff3b30';
-    if (botao === '=') return '#34c759';
-    if (['(', ')', '⌫'].includes(botao)) return '#ff9500';
-    if (['+', '-', '×', '÷'].includes(botao)) return '#555555';
+    if (botao === '=') return '#1e1e1e';
+    if (['(', ')', '⌫'].includes(botao)) return '#000';
+    if (['+', '-', '×', '÷'].includes(botao)) return '#1e1e1e';
     return '#333333';
   };
 
   const lidarComToque = (valor: string): void => {
     if (valor === 'C') {
+
       setExpressao('');
       setResultado('0');
     } else if (valor === '⌫') {
@@ -69,16 +65,6 @@ export default function Index() {
     }
   };
 
-
-  const Botao: React.FC<BotaoProps> = ({ titulo, corFundo = "#333333", corTexto = "#ffffff" }) => (
-    <TouchableOpacity
-      style={[styles.botao, { backgroundColor: corFundo }]}
-      onPress={() => lidarComToque(titulo)}
-    >
-      <Text style={[styles.textoBotao, { color: corTexto }]}>{titulo}</Text>
-    </TouchableOpacity>
-  );
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.displayContainer}>
@@ -98,6 +84,7 @@ export default function Index() {
                 key={botao}
                 titulo={botao}
                 corFundo={obterCorFundo(botao)}
+                onPress={() => lidarComToque(botao)}  
               />
             ))}
           </View>
@@ -107,40 +94,29 @@ export default function Index() {
   );
 }
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#d4d4d3",
-    },
-    displayContainer: {
-      flex: 1,
-      justifyContent: "flex-end",
-      alignItems: "flex-end",
-      padding: 20,
-    },
-    textoDisplay: {
-      fontSize: 70,
-      color: "#000",
-      fontWeight: "300",
-    },
-    tecladoContainer: {
-      paddingBottom: 30,
-      paddingHorizontal: 10,
-    },
-    linha: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      marginBottom: 10,
-    },
-    botao: {
-      width: 80,
-      height: 80,
-      borderRadius: 10,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    textoBotao: {
-      fontSize: 32,
-      fontWeight: "400",
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#121212",
+  },
+  displayContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    padding: 20,
+  },
+  textoDisplay: {
+    fontSize: 70,
+    color: "#fff",
+    fontWeight: "300",
+  },
+  tecladoContainer: {
+    paddingBottom: 30,
+    paddingHorizontal: 10,
+  },
+  linha: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+});
